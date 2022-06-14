@@ -10,21 +10,25 @@ namespace ProvaMVC.Models {
 		public double PontoX { get; set; }
 		public double PontoY { get; set; }
 		public ICollection<Compartimento> Compartimentos { get; set; } = new List<Compartimento>();
+		public int Livres;
 
 		public Armario() {
 
 		}
 
-		public Armario(int id, string nome) {
+		public Armario(int id, string nome, double pontoX, double pontoY) {
 			Id = id;
 			Nome = nome;
+			PontoX = pontoX;
+			PontoY = pontoY;
 		}
 
-		public void AddCompartimentos() {
-			for (int i = 0; i < 10; i++) {
-				Compartimento compartimento = new Compartimento {Id = i+1, Status = (Enums.Status)1, Tamanho = "100x500cm" };
-				Compartimentos.Add(compartimento);
+		public int CompartimentosLivres() {
+			int soma = 0;
+			foreach (var item in Compartimentos) {
+				soma += (int)item.Status;
 			}
+			return soma;
 		}
 	}
 }

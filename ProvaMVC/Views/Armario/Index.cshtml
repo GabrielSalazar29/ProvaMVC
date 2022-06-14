@@ -1,5 +1,39 @@
-﻿@{
-	ViewData["Title"] = "Armario";
+﻿@model ArmarioFormViewModel
+@{
+	ViewData["Title"] = "Armarios";
 }
 
 <h1 class="display-4">@ViewData["Title"]</h1>
+
+<table class="table table-striped table-hover">
+	<thead>
+		<tr class="bg-primary text-white">
+			<th>Nome</th>
+			<th>Ponto X</th>
+			<th>Ponto Y</th>
+			<th>Comp Disponiveis</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model.Armarios) {
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Nome)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.PontoX)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.PontoY)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Livres)
+				</td>
+				<td>
+					<a type="submit" href="/Compartimento/Index?armarioId=@item.Id&usuarioId=@Model.Usuario.Id">Detalhes</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

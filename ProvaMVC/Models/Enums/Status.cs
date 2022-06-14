@@ -1,6 +1,6 @@
 ﻿namespace ProvaMVC.Models.Enums {
 	public enum Status : int {
-		Indiponivel = 0,
+		Ocupado = 0,
 		Disponivel = 1
 	}
 }

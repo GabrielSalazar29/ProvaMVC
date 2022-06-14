@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProvaMVC.Data;
 
 namespace ProvaMVC.Migrations
 {
     [DbContext(typeof(ProvaMVCContext))]
-    partial class ProvaMVCContextModelSnapshot : ModelSnapshot
+    [Migration("20220613185104_AtualizacaoUsuario2")]
+    partial class AtualizacaoUsuario2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -15,6 +15,9 @@ namespace ProvaMVC.Models {
 		[Required(ErrorMessage = "{0} Obrigatório")]
 		[EmailAddress(ErrorMessage = "Insira um Email valido")]
 		public string Email { get; set; }
+		public int? ArmarioId { get; set; }
+		public int? CompartimentoId { get; set; }
+
 
 		public Usuario() {
 		}

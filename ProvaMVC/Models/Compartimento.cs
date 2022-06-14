@@ -9,15 +9,17 @@ namespace ProvaMVC.Models {
 		public int Id { get; set; }
 		public Status Status { get; set; }
 		public string Tamanho { get; set; }
+		public int ArmarioId { get; set; }
 
 		public Compartimento() {
 
 		}
 
-		public Compartimento(int id, Status status, string tamanho) {
+		public Compartimento(int id, Status status, string tamanho, int armarioId) {
 			Id = id;
 			Status = status;
 			Tamanho = tamanho;
+			ArmarioId = armarioId;
 		}
 	}
 }

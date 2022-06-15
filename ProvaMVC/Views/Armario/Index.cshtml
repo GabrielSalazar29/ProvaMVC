@@ -3,9 +3,9 @@
 	ViewData["Title"] = "Armarios";
 }
 
-<h1 class="display-4">@ViewData["Title"]</h1>
+<h2 class="text-primary">@ViewData["Title"]</h2>
 
-<table class="table table-striped table-hover">
+<table class="table table-striped table-hover mt-3">
 	<thead>
 		<tr class="bg-primary text-white">
 			<th>Nome</th>
@@ -31,7 +31,11 @@
 					@Html.DisplayFor(modelItem => item.Livres)
 				</td>
 				<td>
-					<a type="submit" href="/Compartimento/Index?armarioId=@item.Id&usuarioId=@Model.Usuario.Id">Detalhes</a>
+					@if (Model.Usuario.ArmarioId == null) {
+						<a type="submit" href="/Compartimento/Index?armarioId=@item.Id&usuarioId=@Model.Usuario.Id">Detalhes</a>
+					} else if (Model.Usuario.ArmarioId == item.Id) {
+						<a type="submit" href="/Compartimento/Index?armarioId=@item.Id&usuarioId=@Model.Usuario.Id">Detalhes</a>
+					}
 				</td>
 			</tr>
 		}

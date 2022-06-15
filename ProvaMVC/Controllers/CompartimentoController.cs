@@ -41,6 +41,7 @@ namespace ProvaMVC.Controllers {
 			return RedirectToAction(nameof(Index), "Armario", usuario);
 		}
 
+
 		public IActionResult Liberar(int compartimentoId, int usuarioId) {
 			var usuario = _context.Usuarios.FirstOrDefault(x => x.Id == usuarioId);
 			var compartimento = _context.Compartimentos.FirstOrDefault(x => x.Id == compartimentoId);
@@ -51,6 +52,11 @@ namespace ProvaMVC.Controllers {
 			_context.Update(compartimento);
 			_context.Update(usuario);
 			_context.SaveChanges();
+			return RedirectToAction(nameof(Index), "Armario", usuario);
+		}
+		public IActionResult Voltar(int usuarioId) {
+			var usuario = _context.Usuarios.FirstOrDefault(x => x.Id == usuarioId);
+
 			return RedirectToAction(nameof(Index), "Armario", usuario);
 		}
 	}

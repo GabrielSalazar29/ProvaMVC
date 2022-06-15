@@ -3,9 +3,9 @@
 	ViewData["Title"] = "Compartimentos";
 }
 
-<h1 class="display-4">@ViewData["Title"]</h1>
+<h2 class="text-primary">@ViewData["Title"]</h2>
 
-<table class="table table-striped table-hover">
+<table class="table table-striped table-hover mt-3">
 	<thead>
 		<tr class="bg-primary text-white">
 			<th>Id</th>
@@ -16,26 +16,36 @@
 	</thead>
 	<tbody>
 		@foreach (var item in Model.Compartimentos) {
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.Id)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Tamanho)
-				</td>
-				<td>
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Id)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Tamanho)
+			</td>
+			@if (((int)(item.Status)) == 1) {
+
+				<td class="text-success">
 					@Html.DisplayFor(modelItem => item.Status)
 				</td>
-				<td>
-					@if (((int)(item.Status)) == 1) {
+			} else {
 
-						<a type="submit" href="/Compartimento/Reserva?compartimentoId=@item.Id&usuarioId=@Model.Usuario.Id">Reservar</a>
-					} else if (((int)(item.Status)) == 0 && Model.Usuario.CompartimentoId == item.Id) {
-
-						<a type="submit" href="/Compartimento/Liberar?compartimentoId=@item.Id&usuarioId=@Model.Usuario.Id">Liberar</a>
-					}
+				<td class="text-danger">
+					@Html.DisplayFor(modelItem => item.Status)
 				</td>
-			</tr>
+			}
+
+			<td>
+				@if (((int)(item.Status)) == 1 && Model.Usuario.CompartimentoId == null) {
+
+					<a type="submit" href="/Compartimento/Reserva?compartimentoId=@item.Id&usuarioId=@Model.Usuario.Id">Reservar</a>
+				} else if (((int)(item.Status)) == 0 && Model.Usuario.CompartimentoId == item.Id) {
+
+					<a type="submit" href="/Compartimento/Liberar?compartimentoId=@item.Id&usuarioId=@Model.Usuario.Id">Liberar</a>
+				}
+			</td>
+		</tr>
 		}
 	</tbody>
 </table>
+<a type="submit" href="/Compartimento/Voltar?&usuarioId=@Model.Usuario.Id" class="btn btn-secondary">Voltar</a>

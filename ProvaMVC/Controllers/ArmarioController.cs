@@ -17,7 +17,6 @@ namespace ProvaMVC.Controllers {
 		}
 
 		public IActionResult Index(Usuario usuario) {
-
 			var armarios = _context.Armarios.ToList();
 			for (int i = 0; i < armarios.Count; i++) {
 				armarios[i].Compartimentos = _context.Compartimentos.Where(x => x.ArmarioId == (i + 1)).ToList();

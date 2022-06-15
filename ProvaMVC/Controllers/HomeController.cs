@@ -24,9 +24,14 @@ namespace ProvaMVC.Controllers {
 		[HttpPost]
 		public async Task<IActionResult> Create(Usuario usuario) {
 			if (ModelState.IsValid) {
-				_context.Add(usuario);
-				await _context.SaveChangesAsync();
-				return RedirectToAction(nameof(Index), "Armario",usuario);
+				var usuarioExiste = _context.Usuarios.FirstOrDefault(x => x.Email == usuario.Email && x.Cpf == usuario.Cpf && x.Nome == usuario.Nome);
+				if (usuarioExiste == null) {
+					_context.Add(usuario);
+					await _context.SaveChangesAsync();
+					return RedirectToAction(nameof(Index), "Armario", usuario);
+				}
+
+				return RedirectToAction(nameof(Index), "Armario", usuarioExiste);
 			}
 			return View();
 		}

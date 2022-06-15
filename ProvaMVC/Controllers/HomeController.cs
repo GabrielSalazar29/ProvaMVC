@@ -21,7 +21,10 @@ namespace ProvaMVC.Controllers {
 			return View();
 		}
 
-		[HttpPost]
+		public IActionResult PageAdm() {
+			return View();
+		}
+
 		public async Task<IActionResult> Create(Usuario usuario) {
 			if (ModelState.IsValid) {
 				var usuarioExiste = _context.Usuarios.FirstOrDefault(x => x.Email == usuario.Email && x.Cpf == usuario.Cpf && x.Nome == usuario.Nome);

@@ -1,0 +1,92 @@
+﻿@model ArmarioFormViewModel
+
+@{
+    ViewData["Title"] = "Criar";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Usuario</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div class="form-group">
+                <label asp-for="Usuario.Nome" class="control-label"></label>
+                <input asp-for="Usuario.Nome" class="form-control" />
+                <span asp-validation-for="Usuario.Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Usuario.Cpf" class="control-label"></label>
+                <input asp-for="Usuario.Cpf" class="form-control" />
+                <span asp-validation-for="Usuario.Cpf" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Usuario.Email" class="control-label"></label>
+                <input asp-for="Usuario.Email" class="form-control" />
+                <span asp-validation-for="Usuario.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Armario</label>
+				<select asp-for="Usuario.ArmarioId" asp-items="@(new SelectList(Model.Armarios, "Id", "Nome"))" onchange="loadCompartimentos(this.value)" class="form-control">
+					<option></option>
+				</select>
+            </div>
+			<div class="form-group">
+				<label class="control-label">Compartimento</label>
+				<select id="compartimentos" asp-for="Usuario.CompartimentoId" onchange="Check(this.value)" class="form-control" disabled>
+				</select>
+				<span id="mensagem" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Create" class="btn btn-primary" />
+				<a asp-action="Index" class="btn btn-secondary">Voltar à Lista</a>
+			</div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+	function loadCompartimentos(valor) {
+		if (valor != "") {
+
+			$("#compartimentos").attr('disabled', false);
+			$("#compartimentos").attr('required', true);
+			$("#mensagem").text("Campo obrigatorio");
+			
+			$.ajax({
+				url: "LoadCompartimentos?IdArmario=" + valor,
+				method: "POST",
+			}).done(function (data) {
+				loadSelect(data)
+
+			}).fail(function (xhr, ajaxOptions, thrownError) {
+				OpenModal(data.title, data.body);
+			});
+			function loadSelect(data) {
+
+				$("#compartimentos").empty();
+				$("#compartimentos").append('<option></option>');
+				data.body.forEach(function (compartimento) {
+					$("#compartimentos").append('<option value="' + compartimento.id + '">' + compartimento.id + '</option>');
+				});
+			}
+		} else if (valor == "") {
+			$("#compartimentos").attr('disabled', true);
+			$("#compartimentos").attr('required', false);
+			$("#mensagem").text("");
+		}
+	}
+	function Check(valor) {
+		if (valor != "") {
+			$("#mensagem").text("");
+		} else {
+			$("#mensagem").text("Campo obrigatorio");
+		}
+	}
+</script>
+}

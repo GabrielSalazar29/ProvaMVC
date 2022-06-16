@@ -11,6 +11,7 @@ namespace ProvaMVC.Models {
 		[Required(ErrorMessage = "{0} Obrigatório")]
 		public string Nome { get; set; }
 		[Required(ErrorMessage = "{0} Obrigatório")]
+		[RegularExpression(@"^\d{11}$", ErrorMessage = "Insira um Cpf valido (digite 11 numeros)")]
 		public string Cpf { get; set; }
 		[Required(ErrorMessage = "{0} Obrigatório")]
 		[EmailAddress(ErrorMessage = "Insira um Email valido")]

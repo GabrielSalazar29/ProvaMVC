@@ -2,9 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using ProvaMVC.Data;
 using ProvaMVC.Models;
+using ProvaMVC.Models.Enums;
 using ProvaMVC.Models.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,10 +16,10 @@ namespace ProvaMVC.Controllers {
 			_context = context;
 		}
 
-		public IActionResult Index(Usuario usuario) {
-			var armarios = _context.Armarios.ToList();
+		public async Task<IActionResult> Index(Usuario usuario) {
+			var armarios = await _context.Armarios.ToListAsync();
 			for (int i = 0; i < armarios.Count; i++) {
-				armarios[i].Compartimentos = _context.Compartimentos.Where(x => x.ArmarioId == (i + 1)).ToList();
+				armarios[i].Compartimentos = await _context.Compartimentos.Where(x => x.ArmarioId == (armarios[i].Id)).ToListAsync();
 				armarios[i].Livres = armarios[i].CompartimentosLivres();
 			}
 
@@ -41,6 +40,10 @@ namespace ProvaMVC.Controllers {
 
             var armario = await _context.Armarios
                 .FirstOrDefaultAsync(m => m.Id == id);
+            
+            armario.Compartimentos = await _context.Compartimentos.Where(x => x.ArmarioId == (armario.Id)).ToListAsync();
+            armario.Livres = armario.CompartimentosLivres();
+            
             if (armario == null) {
                 return NotFound();
             }
@@ -89,7 +92,7 @@ namespace ProvaMVC.Controllers {
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Nome,PontoX,PontoY")] Armario armario) {
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,PontoX,PontoY")] Armario armario) {
             if (id != armario.Id) {
                 return NotFound();
             }
@@ -98,7 +101,7 @@ namespace ProvaMVC.Controllers {
                 try {
                     
                     _context.Armarios.Update(armario);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
 
                 } catch (DbUpdateConcurrencyException) {
                     if (!ArmarioExists(armario.Id)) {
@@ -133,8 +136,19 @@ namespace ProvaMVC.Controllers {
         public async Task<IActionResult> DeleteConfirmed(int id) {
 
             var armario = await _context.Armarios.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            var compartimentos = await _context.Compartimentos.Where(x => x.ArmarioId == id).ToListAsync();
+			if (compartimentos.Count != 0) {
+				foreach (var item in compartimentos) {
+                    if (item.Status == Status.Ocupado) {
+                        var usuario = await _context.Usuarios.AsNoTracking().FirstOrDefaultAsync(x => x.CompartimentoId == item.Id);
+                        usuario.ArmarioId = null;
+                        usuario.CompartimentoId = null;
+                        _context.Update(usuario);
+                    }
+                }
+                _context.Compartimentos.RemoveRange(compartimentos);
+            }
 
-           
             _context.Armarios.Remove(armario);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(ArmariosAdm));

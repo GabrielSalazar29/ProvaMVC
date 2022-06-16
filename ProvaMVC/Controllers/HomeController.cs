@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ProvaMVC.Data;
 using ProvaMVC.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +26,7 @@ namespace ProvaMVC.Controllers {
 
 		public async Task<IActionResult> Create(Usuario usuario) {
 			if (ModelState.IsValid) {
-				var usuarioExiste = _context.Usuarios.FirstOrDefault(x => x.Email == usuario.Email && x.Cpf == usuario.Cpf && x.Nome == usuario.Nome);
+				var usuarioExiste = await _context.Usuarios.FirstOrDefaultAsync(x => x.Email == usuario.Email && x.Cpf == usuario.Cpf && x.Nome == usuario.Nome);
 				if (usuarioExiste == null) {
 					_context.Add(usuario);
 					await _context.SaveChangesAsync();

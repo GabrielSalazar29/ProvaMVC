@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProvaMVC.Data;
 using ProvaMVC.Models;
 using ProvaMVC.Models.Enums;
 using ProvaMVC.Models.ViewModels;
 
-namespace ProvaMVC.Controllers
-{
-    public class UsuariosController : Controller
+namespace ProvaMVC.Controllers {
+	public class UsuariosController : Controller
     {
         private readonly ProvaMVCContext _context;
 
@@ -46,9 +42,9 @@ namespace ProvaMVC.Controllers
         }
 
         // GET: Usuarios/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var armarios =  _context.Armarios.OrderBy(x => x.Nome).ToList();
+            var armarios = await _context.Armarios.OrderBy(x => x.Nome).ToListAsync();
             var viewModel = new ArmarioFormViewModel { Armarios = armarios };
             return View(viewModel);
 
@@ -63,9 +59,9 @@ namespace ProvaMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var usuarioExiste = _context.Usuarios.FirstOrDefault(x => x.Email == usuario.Email && x.Cpf == usuario.Cpf && x.Nome == usuario.Nome);
+                var usuarioExiste = await _context.Usuarios.FirstOrDefaultAsync(x => x.Email == usuario.Email && x.Cpf == usuario.Cpf && x.Nome == usuario.Nome);
                 if (usuarioExiste != null) {
-                    var armarios = _context.Armarios.OrderBy(x => x.Nome).ToList();
+                    var armarios = await _context.Armarios.OrderBy(x => x.Nome).ToListAsync();
                     var viewModel = new ArmarioFormViewModel { Armarios = armarios, Usuario = usuario };
                     ViewData["Criado"] = "Usuario ja existe";
                     return View(viewModel);
@@ -95,7 +91,7 @@ namespace ProvaMVC.Controllers
             {
                 return NotFound();
             }
-            var armarios = _context.Armarios.OrderBy(x => x.Nome).ToList();
+            var armarios = await _context.Armarios.OrderBy(x => x.Nome).ToListAsync();
             var viewModel = new ArmarioFormViewModel { Armarios = armarios, Usuario = usuario };
             ViewBag.Comp = usuario.CompartimentoId;
             if (ViewBag.Comp == null) {
@@ -111,7 +107,7 @@ namespace ProvaMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Nome,Cpf,Email,ArmarioId,CompartimentoId")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Cpf,Email,ArmarioId,CompartimentoId")] Usuario usuario)
         {
             if (id != usuario.Id)
             {
@@ -122,29 +118,29 @@ namespace ProvaMVC.Controllers
             {
                 try
                 {
-                    var user = _context.Usuarios.AsNoTracking().FirstOrDefault(x => x.Id == usuario.Id);
+                    var user = await _context.Usuarios.AsNoTracking().FirstOrDefaultAsync(x => x.Id == usuario.Id);
                     if (user.CompartimentoId != usuario.CompartimentoId) {
                         if (usuario.CompartimentoId != null && user.CompartimentoId == null) {
-                            var compartimento =  _context.Compartimentos.Find(usuario.CompartimentoId);
+                            var compartimento = await _context.Compartimentos.FindAsync(usuario.CompartimentoId);
                             compartimento.Status = Status.Ocupado;
                             _context.Compartimentos.Update(compartimento);
 						}else if(usuario.CompartimentoId != null && user.CompartimentoId != null) {
-                            var compartimentoNovo = _context.Compartimentos.AsNoTracking().FirstOrDefault(x => x.Id == usuario.CompartimentoId);
-                            var compartimentoVelho = _context.Compartimentos.AsNoTracking().FirstOrDefault(x => x.Id == user.CompartimentoId);
+                            var compartimentoNovo = await _context.Compartimentos.AsNoTracking().FirstOrDefaultAsync(x => x.Id == usuario.CompartimentoId);
+                            var compartimentoVelho = await _context.Compartimentos.AsNoTracking().FirstOrDefaultAsync(x => x.Id == user.CompartimentoId);
                             compartimentoNovo.Status = Status.Ocupado;
                             compartimentoVelho.Status = Status.Disponivel;
                             _context.Compartimentos.Update(compartimentoNovo);
                             _context.Compartimentos.Update(compartimentoVelho);
                         }                     
                         else {
-                            var compartimento =  _context.Compartimentos.Find(user.CompartimentoId);
+                            var compartimento = await _context.Compartimentos.FindAsync(user.CompartimentoId);
                             compartimento.Status = Status.Disponivel;
                             _context.Compartimentos.Update(compartimento);
                         }
                     }
                     user = usuario;
                     _context.Usuarios.Update(user);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -170,8 +166,7 @@ namespace ProvaMVC.Controllers
                 return NotFound();
             }
 
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(m => m.Id == id);
             if (usuario == null)
             {
                 return NotFound();
@@ -206,15 +201,15 @@ namespace ProvaMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult LoadCompartimentos(int IdArmario) {
-            var compartimentos = _context.Compartimentos.Where(x => x.ArmarioId == IdArmario && x.Status == Status.Disponivel).ToList();
+        public async Task<IActionResult> LoadCompartimentos(int IdArmario) {
+            var compartimentos = await _context.Compartimentos.Where(x => x.ArmarioId == IdArmario && x.Status == Status.Disponivel).ToListAsync();
  
             return Json(new { body = compartimentos });
         }
 
         [HttpPost]
-        public IActionResult LoadCompartimentosEdit(int IdArmario, int IdCompartimento) {
-            var compartimentos = _context.Compartimentos.Where(x => (x.ArmarioId == IdArmario && x.Status == Status.Disponivel) || (x.ArmarioId == IdArmario && x.Id == IdCompartimento)).ToList();
+        public async Task<IActionResult> LoadCompartimentosEdit(int IdArmario, int IdCompartimento) {
+            var compartimentos = await _context.Compartimentos.Where(x => (x.ArmarioId == IdArmario && x.Status == Status.Disponivel) || (x.ArmarioId == IdArmario && x.Id == IdCompartimento)).ToListAsync();
             return Json(new { body = compartimentos });
         }
     }

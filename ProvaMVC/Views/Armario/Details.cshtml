@@ -9,26 +9,38 @@
 <div>
 	<h4>Armario</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PontoX)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PontoX)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PontoY)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PontoY)
-        </dd>
-    </dl>
+	<dl class="row" >
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Nome)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Nome)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.PontoX)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.PontoX)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.PontoY)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.PontoY)
+		</dd>
+		<dt class="col-sm-2">
+			Compartimentos
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Compartimentos.Count)
+		</dd>
+		<dt class="col-sm-2">
+			Disponíveis
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Livres)
+		</dd>
+	</dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a>

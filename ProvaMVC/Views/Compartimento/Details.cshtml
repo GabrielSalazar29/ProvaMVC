@@ -1,0 +1,44 @@
+﻿@model CompartimentoEArmarioViewModel
+
+@{
+    ViewData["Title"] = "Detalhes";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+	<h4>Compartimento</h4>
+    <hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Compartimento.Id)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Compartimento.Id)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Compartimento.Status)
+		</dt>
+		@if (((int)(Model.Compartimento.Status)) == 1) {
+
+			<dd class="text-success col-sm-10">
+				@Html.DisplayFor(model => model.Compartimento.Status)
+			</dd>
+		} else {
+
+			<dd class="text-danger col-sm-10">
+				@Html.DisplayFor(model => model.Compartimento.Status)
+			</dd>
+		}
+		<dt class="col-sm-2">
+			Armario
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Armarios.Nome)
+		</dd>
+	</dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Compartimento.Id" class="btn btn-primary">Editar</a>
+    <a asp-action="CompartimentosAdm" class="btn btn-secondary">Voltar à Lista</a>
+</div>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ProvaMVC.Models {
 	public class Compartimento {
 		public int Id { get; set; }
-		public Status Status { get; set; }
+		public Status Status { get; set; } = Status.Disponivel;
 		public string Tamanho { get; set; }
 		public int ArmarioId { get; set; }
 

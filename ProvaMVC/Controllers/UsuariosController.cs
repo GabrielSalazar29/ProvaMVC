@@ -63,7 +63,14 @@ namespace ProvaMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (usuario.CompartimentoId != null) {
+                var usuarioExiste = _context.Usuarios.FirstOrDefault(x => x.Email == usuario.Email && x.Cpf == usuario.Cpf && x.Nome == usuario.Nome);
+                if (usuarioExiste != null) {
+                    var armarios = _context.Armarios.OrderBy(x => x.Nome).ToList();
+                    var viewModel = new ArmarioFormViewModel { Armarios = armarios, Usuario = usuario };
+                    ViewData["Criado"] = "Usuario ja existe";
+                    return View(viewModel);
+                }
+                    if (usuario.CompartimentoId != null) {
                     var compartimento = await _context.Compartimentos.FindAsync(usuario.CompartimentoId);
                     compartimento.Status = Status.Ocupado;
                     _context.Compartimentos.Update(compartimento);

@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20220613184523_AtualizacaoUsuario2.cs" />
-    <Compile Remove="Migrations\20220613184523_AtualizacaoUsuario2.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="Views\Home\Privacy.cshtml" />
   </ItemGroup>
 

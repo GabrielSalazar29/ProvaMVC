@@ -21,11 +21,11 @@ namespace ProvaMVC.Data {
                 return;
             }
 
-            Armario a1 = new Armario(1, "Jaguaribe", 13.0103, 38.5328);
-            Armario a2 = new Armario(2, "Piatã", 13.0103, 38.5328);
-            Armario a3 = new Armario(3, "Pituba", 13.0103, 38.5328);
-            Armario a4 = new Armario(4, "Barra", 13.0103, 38.5328);
-            Armario a5 = new Armario(5, "Pituaçu", 13.0103, 38.5328);
+            Armario a1 = new Armario(1, "Jaguaribe", "-12.960110", "-38.394271");
+            Armario a2 = new Armario(2, "Piatã", "-12.955607", "-38.385612");
+            Armario a3 = new Armario(3, "Pituba", "-13.009531", "-38.463040");
+            Armario a4 = new Armario(4, "Barra", "-13.009831", "-38.528701");
+            Armario a5 = new Armario(5, "Pituaçu", "-12.968212", "-38.406141");
 
             Compartimento c1 = new Compartimento(1, Status.Disponivel, "100x500cm", 1);
             Compartimento c2 = new Compartimento(2, Status.Disponivel, "100x500cm", 1);

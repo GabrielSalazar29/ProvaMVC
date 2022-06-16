@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Armario>
+
+@{
+	ViewData["Title"] = "Armarios Cadastrados";
+}
+
+<h2 class="text-primary ">@ViewData["Title"]</h2>
+
+<p>
+	<a asp-action="Create" class="btn btn-secondary">Adicionar +</a>
+</p>
+<table class="table table-striped table-hover mt-3">
+	<thead>
+		<tr class="bg-primary text-white">
+			<th>
+				@Html.DisplayNameFor(model => model.Id)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Nome)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PontoX)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PontoY)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model) {
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Id)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Nome)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.PontoX)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.PontoY)
+				</td>
+				<td>
+					<a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+					<a asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
+					<a asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+<a asp-action="PageAdm" asp-controller="Home" class="btn btn-secondary">Voltar</a>

@@ -13,9 +13,9 @@ namespace ProvaMVC.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(nullable: true),
-                    PontoX = table.Column<double>(nullable: false),
-                    PontoY = table.Column<double>(nullable: false)
+                    Nome = table.Column<string>(nullable: false),
+                    PontoX = table.Column<string>(nullable: false),
+                    PontoY = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,9 +28,11 @@ namespace ProvaMVC.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(nullable: true),
-                    Cpf = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true)
+                    Nome = table.Column<string>(nullable: false),
+                    Cpf = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    ArmarioId = table.Column<int>(nullable: true),
+                    CompartimentoId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -45,7 +47,7 @@ namespace ProvaMVC.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Status = table.Column<int>(nullable: false),
                     Tamanho = table.Column<string>(nullable: true),
-                    ArmarioId = table.Column<int>(nullable: true)
+                    ArmarioId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,7 +57,7 @@ namespace ProvaMVC.Migrations
                         column: x => x.ArmarioId,
                         principalTable: "Armarios",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

@@ -14,7 +14,7 @@ namespace ProvaMVC.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0")
+                .HasAnnotation("ProductVersion", "3.1.25")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("ProvaMVC.Models.Armario", b =>
@@ -24,13 +24,16 @@ namespace ProvaMVC.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Nome")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<double>("PontoX")
-                        .HasColumnType("double");
+                    b.Property<string>("PontoX")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<double>("PontoY")
-                        .HasColumnType("double");
+                    b.Property<string>("PontoY")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 

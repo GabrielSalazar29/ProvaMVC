@@ -1,14 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProvaMVC.Models {
 	public class Armario {
 		public int Id { get; set; }
+		[Required(ErrorMessage = "{0} Obrigatório")]
 		public string Nome { get; set; }
-		public double PontoX { get; set; }
-		public double PontoY { get; set; }
+
+		[Required(ErrorMessage = "{0} Obrigatório")]
+		[RegularExpression(@"^-?\d+(\.\d{1,})?$", ErrorMessage = "Esse campo deve conter apenas numeros inteiros ou decimais separados por '.'")]
+		[Display(Name = "Ponto X")]
+		public string PontoX { get; set; }
+
+		[Required(ErrorMessage = "{0} Obrigatório")]
+		[RegularExpression(@"^-?\d+(\.\d{1,})?$", ErrorMessage = "Esse campo deve conter apenas numeros inteiros ou decimais separados por '.'")]
+		[Display(Name = "Ponto Y")]
+		public string PontoY { get; set; }
 		public ICollection<Compartimento> Compartimentos { get; set; } = new List<Compartimento>();
 		public int Livres;
 
@@ -16,7 +26,7 @@ namespace ProvaMVC.Models {
 
 		}
 
-		public Armario(int id, string nome, double pontoX, double pontoY) {
+		public Armario(int id, string nome, string pontoX, string pontoY) {
 			Id = id;
 			Nome = nome;
 			PontoX = pontoX;
